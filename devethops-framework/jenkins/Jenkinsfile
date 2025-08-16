@@ -1,0 +1,394 @@
+pipeline {
+    agent {
+        kubernetes {
+            yamlFile 'jenkins/jenkins-agent.yaml'
+        }
+    }
+    
+    environment {
+        REGISTRY = 'your-registry.com'
+        IMAGE_NAME = 'devethops/framework'
+        KUBECONFIG = credentials('kubeconfig')
+        DOCKER_REGISTRY_CREDS = credentials('docker-registry-credentials')
+        DEVETHOPS_API_KEY = credentials('devethops-api-key')
+    }
+    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 60, unit: 'MINUTES')
+        timestamps()
+        ansiColor('xterm')
+    }
+    
+    triggers {
+        githubPush()
+        cron('H 2 * * *')  // Nightly builds
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                script {
+                    env.BUILD_VERSION = sh(
+                        script: "echo '${BUILD_NUMBER}-${GIT_COMMIT[0..7]}'",
+                        returnStdout: true
+                    ).trim()
+                }
+            }
+        }
+        
+        stage('Environment Setup') {
+            parallel {
+                stage('Python Dependencies') {
+                    steps {
+                        container('python') {
+                            sh '''
+                                python -m venv venv
+                                source venv/bin/activate
+                                pip install --upgrade pip
+                                pip install -r requirements.txt
+                            '''
+                        }
+                    }
+                }
+                
+                stage('Docker Build') {
+                    steps {
+                        container('docker') {
+                            script {
+                                def image = docker.build("${IMAGE_NAME}:${BUILD_VERSION}", "-f docker/Dockerfile .")
+                                env.DOCKER_IMAGE = image.id
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Code Quality') {
+            parallel {
+                stage('Lint') {
+                    steps {
+                        container('python') {
+                            sh '''
+                                source venv/bin/activate
+                                flake8 src/ --max-line-length=88 --extend-ignore=E203,W503
+                                black --check src/
+                                isort --check-only src/
+                            '''
+                        }
+                    }
+                }
+                
+                stage('Security Scan') {
+                    steps {
+                        container('python') {
+                            sh '''
+                                source venv/bin/activate
+                                bandit -r src/ -f json -o bandit-report.json
+                                safety check --json --output safety-report.json
+                            '''
+                        }
+                    }
+                    post {
+                        always {
+                            archiveArtifacts artifacts: '*-report.json', fingerprint: true
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Unit Tests') {
+            steps {
+                container('python') {
+                    sh '''
+                        source venv/bin/activate
+                        python -m pytest tests/unit/ \
+                            --junitxml=unit-test-results.xml \
+                            --cov=src \
+                            --cov-report=xml:coverage.xml \
+                            --cov-report=html:htmlcov \
+                            -v
+                    '''
+                }
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: 'unit-test-results.xml'
+                    publishCoverage adapters: [
+                        coberturaAdapter('coverage.xml')
+                    ], sourceFileResolver: sourceFiles('STORE_LAST_BUILD')
+                }
+            }
+        }
+        
+        stage('Ethical AI Tests') {
+            steps {
+                container('python') {
+                    sh '''
+                        source venv/bin/activate
+                        echo "Running fairness evaluation tests..."
+                        python -m pytest tests/integration/test_fairness_pipeline.py \
+                            --junitxml=fairness-test-results.xml -v
+                        
+                        echo "Running explainability tests..."
+                        python -m pytest tests/integration/test_explainability.py \
+                            --junitxml=explainability-test-results.xml -v
+                        
+                        echo "Running bias detection tests..."
+                        python -c "
+                        from src.pipeline.test_stage import TestStage
+                        from src.ethical_checks.fairness_evaluator import FairnessEvaluator
+                        
+                        # Load synthetic test data with known bias
+                        test_stage = TestStage()
+                        results = test_stage.run_fairness_tests('tests/fixtures/biased_dataset.csv')
+                        
+                        if not results['passed']:
+                            print('FAIRNESS TEST FAILED:', results['message'])
+                            exit(1)
+                        else:
+                            print('FAIRNESS TESTS PASSED')
+                        "
+                    '''
+                }
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: '*-test-results.xml'
+                    archiveArtifacts artifacts: 'fairness_report_*.json', fingerprint: true
+                }
+            }
+        }
+        
+        stage('Integration Tests') {
+            steps {
+                container('python') {
+                    sh '''
+                        source venv/bin/activate
+                        # Start test services
+                        docker-compose -f docker/docker-compose.yml up -d postgres redis
+                        sleep 30
+                        
+                        # Run integration tests
+                        python -m pytest tests/integration/ \
+                            --junitxml=integration-test-results.xml \
+                            -v --tb=short
+                        
+                        # Cleanup
+                        docker-compose -f docker/docker-compose.yml down
+                    '''
+                }
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: 'integration-test-results.xml'
+                }
+            }
+        }
+        
+        stage('Model Validation') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                }
+            }
+            steps {
+                container('python') {
+                    sh '''
+                        source venv/bin/activate
+                        echo "Running model validation pipeline..."
+                        python src/main.py --mode validate \
+                            --config config/pipeline_config.yaml \
+                            --data tests/fixtures/validation_dataset.csv \
+                            --output validation_results.json
+                        
+                        # Check validation results
+                        python -c "
+                        import json
+                        with open('validation_results.json') as f:
+                            results = json.load(f)
+                        
+                        fairness_score = results.get('fairness_score', 0)
+                        performance_score = results.get('performance_score', 0)
+                        
+                        print(f'Fairness Score: {fairness_score}')
+                        print(f'Performance Score: {performance_score}')
+                        
+                        if fairness_score < 0.8:
+                            print('VALIDATION FAILED: Fairness score too low')
+                            exit(1)
+                        if performance_score < 0.8:
+                            print('VALIDATION FAILED: Performance score too low')
+                            exit(1)
+                            
+                        print('MODEL VALIDATION PASSED')
+                        "
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'validation_results.json', fingerprint: true
+                }
+            }
+        }
+        
+        stage('Docker Push') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                }
+            }
+            steps {
+                container('docker') {
+                    script {
+                        docker.withRegistry("https://${REGISTRY}", "${DOCKER_REGISTRY_CREDS}") {
+                            def image = docker.image("${IMAGE_NAME}:${BUILD_VERSION}")
+                            image.push()
+                            image.push("latest")
+                            
+                            if (env.BRANCH_NAME == 'main') {
+                                image.push("stable")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy to Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                container('kubectl') {
+                    sh '''
+                        # Deploy to staging namespace
+                        kubectl config use-context staging-cluster
+                        
+                        # Update deployment image
+                        kubectl set image deployment/devethops-framework \
+                            devethops-framework=${REGISTRY}/${IMAGE_NAME}:${BUILD_VERSION} \
+                            -n staging
+                        
+                        # Wait for rollout
+                        kubectl rollout status deployment/devethops-framework -n staging
+                        
+                        # Run smoke tests
+                        kubectl run smoke-test --rm -i --restart=Never \
+                            --image=curlimages/curl:latest \
+                            -- curl -f http://devethops-framework-service.staging:8000/health
+                    '''
+                }
+            }
+        }
+        
+        stage('Deploy to Production') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    input message: 'Deploy to Production?', 
+                          parameters: [
+                              choice(name: 'DEPLOY_STRATEGY', 
+                                     choices: ['rolling', 'blue-green', 'canary'], 
+                                     description: 'Deployment Strategy')
+                          ]
+                }
+                
+                container('kubectl') {
+                    sh '''
+                        kubectl config use-context production-cluster
+                        
+                        # Apply production configurations
+                        kubectl apply -f kubernetes/ -n production
+                        
+                        # Update deployment image
+                        kubectl set image deployment/devethops-framework \
+                            devethops-framework=${REGISTRY}/${IMAGE_NAME}:${BUILD_VERSION} \
+                            -n production
+                        
+                        # Monitor rollout
+                        kubectl rollout status deployment/devethops-framework -n production --timeout=600s
+                        
+                        # Post-deployment validation
+                        sleep 60
+                        kubectl run post-deploy-test --rm -i --restart=Never \
+                            --image=${REGISTRY}/${IMAGE_NAME}:${BUILD_VERSION} \
+                            -n production \
+                            -- python src/main.py --mode health-check
+                    '''
+                }
+            }
+        }
+        
+        stage('Post-Deployment Tests') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                }
+            }
+            steps {
+                container('python') {
+                    sh '''
+                        source venv/bin/activate
+                        
+                        # Run end-to-end tests against deployed service
+                        ENVIRONMENT=$([ "$BRANCH_NAME" = "main" ] && echo "production" || echo "staging")
+                        
+                        python -m pytest tests/e2e/ \
+                            --environment=$ENVIRONMENT \
+                            --junitxml=e2e-test-results.xml \
+                            -v
+                    '''
+                }
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: 'e2e-test-results.xml'
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+        
+        success {
+            script {
+                if (env.BRANCH_NAME == 'main') {
+                    slackSend(
+                        channel: '#devethops-deployments',
+                        color: 'good',
+                        message: "✅ Production deployment successful: ${IMAGE_NAME}:${BUILD_VERSION}"
+                    )
+                }
+            }
+        }
+        
+        failure {
+            slackSend(
+                channel: '#devethops-alerts',
+                color: 'danger',
+                message: "❌ Pipeline failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
+            )
+        }
+        
+        unstable {
+            slackSend(
+                channel: '#devethops-alerts',
+                color: 'warning',
+                message: "⚠️ Pipeline unstable: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
+            )
+        }
+    }
+}

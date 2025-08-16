@@ -1,0 +1,57 @@
+model_config:
+  # Base model configuration
+  base_model: "roberta-base"
+  model_type: "classification"
+  num_labels: 2
+  
+  # Training parameters
+  training:
+    learning_rate: 2e-5
+    batch_size: 16
+    num_epochs: 3
+    warmup_steps: 500
+    weight_decay: 0.01
+    max_grad_norm: 1.0
+    
+  # Tokenization
+  tokenization:
+    max_length: 512
+    padding: "max_length"
+    truncation: true
+    return_tensors: "pt"
+    
+  # Model architecture
+  architecture:
+    hidden_size: 768
+    num_attention_heads: 12
+    num_hidden_layers: 12
+    dropout_rate: 0.1
+    
+  # Performance thresholds
+  performance_thresholds:
+    minimum_accuracy: 0.85
+    minimum_f1_score: 0.80
+    minimum_auc_roc: 0.89
+    minimum_precision: 0.80
+    minimum_recall: 0.80
+    
+  # Inference settings
+  inference:
+    batch_size: 32
+    max_length: 512
+    use_gpu: true
+    fp16: true
+    
+  # Model versioning
+  versioning:
+    save_best_model: true
+    save_checkpoints: true
+    checkpoint_frequency: 500
+    model_registry: "local"  # Options: local, mlflow, wandb
+    
+  # Explainability settings
+  explainability:
+    enable_shap: true
+    enable_lime: true
+    num_samples_lime: 1000
+    num_features_shap: 20
