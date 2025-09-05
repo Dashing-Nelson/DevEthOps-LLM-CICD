@@ -1,6 +1,7 @@
 # Main configuration for DevEthOps pipeline
 dataset:
   name: "ibm_hr"  # ibm_hr, adult, mimic, synthetic
+  file_path: "data/raw/WA_Fn-UseC_-HR-Employee-Attrition.csv"
   protected_attributes: ["Gender", "Age"]
   target_column: "Attrition"
   test_size: 0.2

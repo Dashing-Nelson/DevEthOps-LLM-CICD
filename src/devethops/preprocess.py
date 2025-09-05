@@ -106,6 +106,41 @@ class DataPreprocessor:
         
         return self.preprocessor.transform(X)
     
+    def preprocess_data(self, data: pd.DataFrame, target_column: str, 
+                       test_size: float = 0.2, random_state: int = 42):
+        """
+        Complete preprocessing pipeline with train/test split.
+        
+        Args:
+            data: Full dataset including target
+            target_column: Name of target column
+            test_size: Proportion for test set
+            random_state: Random seed
+            
+        Returns:
+            Tuple of (X_train, X_test, y_train, y_test)
+        """
+        from sklearn.model_selection import train_test_split
+        
+        # Separate features and target
+        X = data.drop(columns=[target_column])
+        y = data[target_column]
+        
+        # Create train/test split
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=random_state, stratify=y
+        )
+        
+        # Fit preprocessor on training data and transform both sets
+        X_train_transformed, _ = self.fit_transform(X_train, y_train)
+        X_test_transformed = self.transform(X_test)
+        
+        # Convert back to DataFrame with feature names
+        X_train_df = pd.DataFrame(X_train_transformed, columns=self.feature_names)
+        X_test_df = pd.DataFrame(X_test_transformed, columns=self.feature_names)
+        
+        return X_train_df, X_test_df, y_train.reset_index(drop=True), y_test.reset_index(drop=True)
+    
     def _identify_feature_types(self, X: pd.DataFrame) -> Tuple[List[str], List[str]]:
         """
         Identify categorical and numerical features.

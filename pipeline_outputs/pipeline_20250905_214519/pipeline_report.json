@@ -1,0 +1,434 @@
+{
+  "pipeline_id": "pipeline_20250905_214519",
+  "execution_time_seconds": 54.43501663208008,
+  "fairness_gates_passed": true,
+  "stage_results": {
+    "build": {
+      "stage": "build",
+      "dataset_name": "ibm_hr",
+      "protected_attributes": null,
+      "mitigation_applied": true,
+      "dataset_shape": [
+        1470,
+        31
+      ],
+      "class_distribution": {
+        "0": 1233,
+        "1": 237
+      },
+      "data_validation": {
+        "passed": true,
+        "issues": [],
+        "warnings": [],
+        "stats": {
+          "num_samples": 1470,
+          "num_features": 31,
+          "missing_percentage": 0.0,
+          "class_distribution": {
+            "0": 1233,
+            "1": 237
+          },
+          "min_class_ratio": 0.1922141119221411
+        }
+      },
+      "preprocessing": {
+        "X_train": "Data object (not serialized)",
+        "X_val": "Data object (not serialized)",
+        "X_test": "Data object (not serialized)",
+        "y_train": "Data object (not serialized)",
+        "y_val": "Data object (not serialized)",
+        "y_test": "Data object (not serialized)",
+        "preprocessor": "Object of type DataPreprocessor",
+        "preprocessing_info": {
+          "categorical_features": [
+            "BusinessTravel",
+            "Department",
+            "Education",
+            "EducationField",
+            "EnvironmentSatisfaction",
+            "Gender",
+            "JobInvolvement",
+            "JobLevel",
+            "JobRole",
+            "JobSatisfaction",
+            "MaritalStatus",
+            "NumCompaniesWorked",
+            "OverTime",
+            "PerformanceRating",
+            "RelationshipSatisfaction",
+            "StockOptionLevel",
+            "TrainingTimesLastYear",
+            "WorkLifeBalance",
+            "AgeBucket"
+          ],
+          "numerical_features": [
+            "Age",
+            "DailyRate",
+            "DistanceFromHome",
+            "HourlyRate",
+            "MonthlyIncome",
+            "MonthlyRate",
+            "PercentSalaryHike",
+            "TotalWorkingYears",
+            "YearsAtCompany",
+            "YearsInCurrentRole",
+            "YearsSinceLastPromotion",
+            "YearsWithCurrManager"
+          ],
+          "feature_names": [
+            "Age",
+            "DailyRate",
+            "DistanceFromHome",
+            "HourlyRate",
+            "MonthlyIncome",
+            "MonthlyRate",
+            "PercentSalaryHike",
+            "TotalWorkingYears",
+            "YearsAtCompany",
+            "YearsInCurrentRole",
+            "YearsSinceLastPromotion",
+            "YearsWithCurrManager",
+            "BusinessTravel_Travel_Frequently",
+            "BusinessTravel_Travel_Rarely",
+            "Department_Research & Development",
+            "Department_Sales",
+            "Education_2",
+            "Education_3",
+            "Education_4",
+            "Education_5",
+            "EducationField_Life Sciences",
+            "EducationField_Marketing",
+            "EducationField_Medical",
+            "EducationField_Other",
+            "EducationField_Technical Degree",
+            "EnvironmentSatisfaction_2",
+            "EnvironmentSatisfaction_3",
+            "EnvironmentSatisfaction_4",
+            "Gender_Male",
+            "JobInvolvement_2",
+            "JobInvolvement_3",
+            "JobInvolvement_4",
+            "JobLevel_2",
+            "JobLevel_3",
+            "JobLevel_4",
+            "JobLevel_5",
+            "JobRole_Human Resources",
+            "JobRole_Laboratory Technician",
+            "JobRole_Manager",
+            "JobRole_Manufacturing Director",
+            "JobRole_Research Director",
+            "JobRole_Research Scientist",
+            "JobRole_Sales Executive",
+            "JobRole_Sales Representative",
+            "JobSatisfaction_2",
+            "JobSatisfaction_3",
+            "JobSatisfaction_4",
+            "MaritalStatus_Married",
+            "MaritalStatus_Single",
+            "NumCompaniesWorked_1",
+            "NumCompaniesWorked_2",
+            "NumCompaniesWorked_3",
+            "NumCompaniesWorked_4",
+            "NumCompaniesWorked_5",
+            "NumCompaniesWorked_6",
+            "NumCompaniesWorked_7",
+            "NumCompaniesWorked_8",
+            "NumCompaniesWorked_9",
+            "OverTime_Yes",
+            "PerformanceRating_4",
+            "RelationshipSatisfaction_2",
+            "RelationshipSatisfaction_3",
+            "RelationshipSatisfaction_4",
+            "StockOptionLevel_1",
+            "StockOptionLevel_2",
+            "StockOptionLevel_3",
+            "TrainingTimesLastYear_1",
+            "TrainingTimesLastYear_2",
+            "TrainingTimesLastYear_3",
+            "TrainingTimesLastYear_4",
+            "TrainingTimesLastYear_5",
+            "TrainingTimesLastYear_6",
+            "WorkLifeBalance_2",
+            "WorkLifeBalance_3",
+            "WorkLifeBalance_4",
+            "AgeBucket_40-50",
+            "AgeBucket_50+",
+            "AgeBucket_<30"
+          ],
+          "protected_attributes": [],
+          "original_shape": [
+            1029,
+            31
+          ],
+          "transformed_shape": [
+            1029,
+            78
+          ]
+        },
+        "original_splits": {
+          "X_train": "Data object (not serialized)",
+          "X_val": "Data object (not serialized)",
+          "X_test": "Data object (not serialized)",
+          "y_train": "Data object (not serialized)",
+          "y_val": "Data object (not serialized)",
+          "y_test": "Data object (not serialized)"
+        }
+      }
+    },
+    "test": {
+      "stage": "test",
+      "model_type": "logistic_regression",
+      "protected_attributes": null,
+      "model_training": {
+        "model_type": "logistic_regression",
+        "best_params": {
+          "C": 10.0,
+          "penalty": "l1",
+          "solver": "liblinear"
+        },
+        "feature_names": null,
+        "model_object": "Object of type LogisticRegression",
+        "trainer": "Object of type TabularModelTrainer"
+      },
+      "performance_metrics": {
+        "accuracy": 0.7993197278911565,
+        "precision": 0.4117647058823529,
+        "recall": 0.5957446808510638,
+        "f1_score": 0.48695652173913045,
+        "roc_auc": 0.7913687656128866
+      },
+      "fairness_gates_passed": true,
+      "explainability": {
+        "model_type": "tabular",
+        "global_explanation": {
+          "error": "Per-column arrays must each be 1-dimensional"
+        },
+        "sample_local_explanations": [
+          {
+            "shap": {
+              "error": "Per-column arrays must each be 1-dimensional"
+            },
+            "lime": {
+              "explanation": "Data object (not serialized)",
+              "explanation_object": "Object of type Explanation"
+            },
+            "instance_index": "293"
+          },
+          {
+            "shap": {
+              "error": "Per-column arrays must each be 1-dimensional"
+            },
+            "lime": {
+              "explanation": "Data object (not serialized)",
+              "explanation_object": "Object of type Explanation"
+            },
+            "instance_index": "71"
+          },
+          {
+            "shap": {
+              "error": "Per-column arrays must each be 1-dimensional"
+            },
+            "lime": {
+              "explanation": "Data object (not serialized)",
+              "explanation_object": "Object of type Explanation"
+            },
+            "instance_index": "242"
+          },
+          {
+            "shap": {
+              "error": "Per-column arrays must each be 1-dimensional"
+            },
+            "lime": {
+              "explanation": "Data object (not serialized)",
+              "explanation_object": "Object of type Explanation"
+            },
+            "instance_index": "237"
+          },
+          {
+            "shap": {
+              "error": "Per-column arrays must each be 1-dimensional"
+            },
+            "lime": {
+              "explanation": "Data object (not serialized)",
+              "explanation_object": "Object of type Explanation"
+            },
+            "instance_index": "179"
+          }
+        ],
+        "fairness_explanations": {},
+        "plots": [],
+        "report": "============================================================\nEXPLAINABILITY ANALYSIS REPORT\n============================================================\nModel Type: tabular\n\nLOCAL EXPLANATIONS (5 samples):\n\n\n============================================================"
+      },
+      "best_model": {
+        "model": "Object of type LogisticRegression",
+        "trainer": "Object of type TabularModelTrainer",
+        "type": "logistic_regression",
+        "performance": {
+          "accuracy": 0.7993197278911565,
+          "precision": 0.4117647058823529,
+          "recall": 0.5957446808510638,
+          "f1_score": 0.48695652173913045,
+          "roc_auc": 0.7913687656128866
+        }
+      }
+    },
+    "deploy": {
+      "stage": "deploy",
+      "error": "Object of type ConfigManager is not JSON serializable"
+    },
+    "monitor": {
+      "stage": "monitor",
+      "drift_detection": {
+        "drift_detection_enabled": true,
+        "reference_data_shape": [
+          1726,
+          78
+        ],
+        "thresholds": {
+          "data_drift": 0.1,
+          "prediction_drift": 0.1,
+          "psi_threshold": 0.2
+        }
+      },
+      "fairness_monitoring": {
+        "fairness_monitoring_enabled": false,
+        "reason": "No protected attributes specified"
+      },
+      "monitoring_config": {
+        "pipeline_id": "pipeline_20250905_214519",
+        "monitoring_enabled": true,
+        "drift_detection": {
+          "enabled": true,
+          "check_interval_seconds": 3600,
+          "thresholds": {
+            "data_drift": 0.1,
+            "prediction_drift": 0.1,
+            "psi_threshold": 0.2
+          }
+        },
+        "fairness_monitoring": {
+          "enabled": false,
+          "check_interval_seconds": 3600,
+          "protected_attributes": []
+        },
+        "alerting": {
+          "enabled": true,
+          "thresholds": {
+            "accuracy_drop": 0.05,
+            "f1_drop": 0.05,
+            "fairness_violation": true
+          }
+        },
+        "metrics_retention_hours": 168,
+        "prometheus_config": {
+          "job_name": "devethops_model_pipeline_20250905_214519",
+          "metrics_endpoint": "/metrics",
+          "scrape_interval": "30s",
+          "metrics": [
+            "model_accuracy",
+            "model_f1_score",
+            "data_drift_score",
+            "prediction_drift_score",
+            "fairness_violations_total",
+            "predictions_total"
+          ]
+        },
+        "grafana_config": {
+          "dashboard_name": "DevEthOps Model Monitoring - pipeline_20250905_214519",
+          "panels": [
+            {
+              "title": "Model Performance",
+              "metrics": [
+                "model_accuracy",
+                "model_f1_score"
+              ],
+              "type": "time_series"
+            },
+            {
+              "title": "Drift Detection",
+              "metrics": [
+                "data_drift_score",
+                "prediction_drift_score"
+              ],
+              "type": "time_series"
+            },
+            {
+              "title": "Fairness Monitoring",
+              "metrics": [
+                "fairness_violations_total"
+              ],
+              "type": "stat"
+            },
+            {
+              "title": "Prediction Volume",
+              "metrics": [
+                "predictions_total"
+              ],
+              "type": "time_series"
+            }
+          ]
+        }
+      },
+      "alerts": {
+        "alert_channels": [
+          "stdout",
+          "logs"
+        ],
+        "alert_rules": [
+          {
+            "name": "data_drift_high",
+            "condition": "data_drift_score > 0.2",
+            "severity": "warning"
+          },
+          {
+            "name": "fairness_violation",
+            "condition": "fairness_gates_failed = true",
+            "severity": "critical"
+          },
+          {
+            "name": "performance_degradation",
+            "condition": "f1_score_drop > 0.05",
+            "severity": "warning"
+          }
+        ],
+        "notification_channels": {
+          "stdout": {
+            "enabled": true
+          },
+          "prometheus": {
+            "enabled": false,
+            "url": "http://prometheus:9090"
+          },
+          "grafana": {
+            "enabled": false,
+            "url": "http://grafana:3000"
+          }
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "data": {
+      "X_train": "Data object (not serialized)",
+      "X_val": "Data object (not serialized)",
+      "X_test": "Data object (not serialized)",
+      "y_train": "Data object (not serialized)",
+      "y_val": "Data object (not serialized)",
+      "y_test": "Data object (not serialized)",
+      "preprocessor": "Object of type DataPreprocessor",
+      "sample_weights": null
+    }
+  },
+  "metrics": {
+    "model_performance": {
+      "accuracy": 0.7993197278911565,
+      "precision": 0.4117647058823529,
+      "recall": 0.5957446808510638,
+      "f1_score": 0.48695652173913045,
+      "roc_auc": 0.7913687656128866
+    },
+    "fairness_passed": true
+  },
+  "output_directory": "pipeline_outputs/pipeline_20250905_214519",
+  "config": "Object of type ConfigManager"
+}

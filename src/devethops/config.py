@@ -196,3 +196,53 @@ def save_config(config: Dict[str, Any], output_path: str) -> None:
         yaml.dump(config, f, default_flow_style=False, indent=2)
     
     logger.info(f"Configuration saved to {output_path}")
+
+
+class ConfigManager:
+    """Main configuration manager for DevEthOps pipeline."""
+    
+    def __init__(self, config_path: Optional[str] = None):
+        """
+        Initialize configuration manager.
+        
+        Args:
+            config_path: Path to configuration file
+        """
+        self.config_path = config_path
+        self.config = self.load_config()
+    
+    def load_config(self) -> Dict[str, Any]:
+        """Load configuration from file."""
+        return load_config(self.config_path)
+    
+    def get(self, key: str, default: Any = None) -> Any:
+        """Get configuration value by key."""
+        keys = key.split('.')
+        value = self.config
+        
+        for k in keys:
+            if isinstance(value, dict) and k in value:
+                value = value[k]
+            else:
+                return default
+        
+        return value
+    
+    def update(self, key: str, value: Any) -> None:
+        """Update configuration value."""
+        keys = key.split('.')
+        config = self.config
+        
+        for k in keys[:-1]:
+            if k not in config:
+                config[k] = {}
+            config = config[k]
+        
+        config[keys[-1]] = value
+    
+    def save(self, output_path: Optional[str] = None) -> None:
+        """Save configuration to file."""
+        if output_path is None:
+            output_path = self.config_path
+        
+        save_config(self.config, output_path)

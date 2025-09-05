@@ -1,0 +1,7 @@
+{
+  "pipeline_id": "pipeline_20250905_214441",
+  "status": "failed",
+  "error": "Error loading IBM HR data: [Errno 2] No such file or directory: 'data/raw/ibm_hr.csv'",
+  "stage_results": {},
+  "execution_time_seconds": 0.0014395713806152344
+}

@@ -1,0 +1,21 @@
+============================================================
+DEVETHOPS ETHICAL ML PIPELINE SUMMARY
+============================================================
+Pipeline ID: pipeline_20250905_214519
+Execution Time: 54.44 seconds
+Fairness Gates Passed: ✅ YES
+
+STAGE RESULTS:
+
+  BUILD: ✅ SUCCESS
+
+  TEST: ✅ SUCCESS
+    F1-Score: 0.4870
+    Accuracy: 0.7993
+
+  DEPLOY: ❌ FAILED
+    Error: Object of type ConfigManager is not JSON serializable
+
+  MONITOR: ✅ SUCCESS
+
+============================================================

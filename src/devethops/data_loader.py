@@ -472,3 +472,30 @@ def create_train_test_split(X: pd.DataFrame, y: pd.Series,
         'y_val': y_val,
         'y_test': y_test
     }
+
+
+class DataLoader:
+    """Main data loader class that unifies all dataset loaders."""
+    
+    def __init__(self, config):
+        """Initialize with configuration."""
+        self.config = config
+        self.cache_dir = config.get('cache_dir', 'data/cache')
+        
+    def load_ibm_hr_data(self):
+        """Load IBM HR dataset."""
+        loader = IBMHRLoader(cache_dir=self.cache_dir)
+        file_path = 'data/raw/WA_Fn-UseC_-HR-Employee-Attrition.csv'
+        return loader.load_data(file_path)
+    
+    def load_adult_data(self):
+        """Load Adult Census dataset."""
+        loader = AdultCensusLoader(cache_dir=self.cache_dir)
+        file_path = 'data/raw/adult.csv'
+        return loader.load_data(file_path)
+    
+    def load_mimic_data(self):
+        """Load MIMIC-III dataset."""
+        loader = MIMICLoader(cache_dir=self.cache_dir)
+        file_path = 'data/raw/mimic.csv'
+        return loader.load_data(file_path)

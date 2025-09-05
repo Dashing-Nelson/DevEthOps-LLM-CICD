@@ -26,6 +26,11 @@ try:
 except ImportError:
     logging.warning("Transformers library not available. Text models will not be supported.")
     TRANSFORMERS_AVAILABLE = False
+    # Create dummy classes for type hints when transformers is not available
+    class Dataset:
+        pass
+    class DatasetDict:
+        pass
 
 # Scikit-learn for metrics
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support, roc_auc_score
