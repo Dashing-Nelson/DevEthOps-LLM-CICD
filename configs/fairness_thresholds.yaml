@@ -1,0 +1,103 @@
+# Fairness thresholds configuration for DevEthOps pipeline
+thresholds:
+  # Disparate Impact: ratio of positive outcome rates between groups
+  # Should be between 0.8 and 1.25 (80% rule)
+  disparate_impact:
+    min: 0.8
+    max: 1.25
+    description: "Ratio of positive outcome rates between unprivileged and privileged groups"
+    
+  # Statistical Parity Difference: difference in positive outcome rates
+  # Should be close to 0 (typically ±0.1)
+  statistical_parity_difference:
+    max_abs: 0.1
+    description: "Difference in positive outcome rates between privileged and unprivileged groups"
+    
+  # Equal Opportunity Difference: difference in true positive rates
+  # Should be close to 0 (typically ±0.1)
+  equal_opportunity_difference:
+    max_abs: 0.1
+    description: "Difference in true positive rates between privileged and unprivileged groups"
+    
+  # Average Odds Difference: average of TPR and FPR differences
+  # Should be close to 0 (typically ±0.1)
+  average_odds_difference:
+    max_abs: 0.1
+    description: "Average of TPR and FPR differences between privileged and unprivileged groups"
+    
+  # Demographic Parity: absolute statistical parity difference
+  # Should be close to 0 (typically ≤0.1)
+  demographic_parity:
+    max_abs: 0.1
+    description: "Absolute difference in positive outcome rates between groups"
+
+# Dataset-specific thresholds (can override defaults)
+dataset_specific:
+  ibm_hr:
+    # More lenient thresholds for HR data due to smaller sample size
+    statistical_parity_difference:
+      max_abs: 0.15
+    equal_opportunity_difference:
+      max_abs: 0.15
+      
+  adult:
+    # Standard thresholds for well-known benchmark dataset
+    disparate_impact:
+      min: 0.8
+      max: 1.25
+    statistical_parity_difference:
+      max_abs: 0.1
+      
+  mimic:
+    # Stricter thresholds for medical data
+    statistical_parity_difference:
+      max_abs: 0.05
+    equal_opportunity_difference:
+      max_abs: 0.05
+    demographic_parity:
+      max_abs: 0.05
+
+# Protected attribute specific configurations
+protected_attributes:
+  gender:
+    privileged_groups: ["Male", "M", 1]
+    unprivileged_groups: ["Female", "F", 0]
+    
+  race:
+    privileged_groups: ["White", "Caucasian"]
+    # Other groups automatically considered unprivileged
+    
+  age:
+    # For age, typically older is considered privileged in employment
+    privileged_threshold: 40  # Age >= 40 considered privileged
+    
+  insurance:
+    privileged_groups: ["Private", "Medicare"]
+    unprivileged_groups: ["Medicaid", "Self Pay"]
+
+# Severity levels for threshold violations
+severity_levels:
+  low:
+    disparate_impact: [0.75, 1.33]
+    statistical_parity_difference: 0.15
+    
+  medium:
+    disparate_impact: [0.67, 1.5]
+    statistical_parity_difference: 0.2
+    
+  high:
+    disparate_impact: [0.5, 2.0]
+    statistical_parity_difference: 0.3
+
+# Monitoring thresholds (for continuous monitoring)
+monitoring:
+  # Trend analysis thresholds
+  trend_degradation:
+    consecutive_violations: 3  # Number of consecutive checks before alert
+    rolling_window_hours: 24
+    degradation_threshold: 0.05  # 5% degradation triggers alert
+    
+  # Drift correlation with fairness
+  fairness_drift_correlation:
+    enabled: true
+    correlation_threshold: 0.7  # High correlation between drift and fairness violations

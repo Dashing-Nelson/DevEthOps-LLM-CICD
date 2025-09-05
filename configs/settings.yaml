@@ -1,0 +1,102 @@
+# Main configuration for DevEthOps pipeline
+dataset:
+  name: "ibm_hr"  # ibm_hr, adult, mimic, synthetic
+  protected_attributes: ["Gender", "Age"]
+  target_column: "Attrition"
+  test_size: 0.2
+  val_size: 0.1
+  stratify_cols: ["target"]
+  balancing_method: "smote"  # smote, random_oversample, none
+
+model:
+  type: "xgboost"  # logistic_regression, random_forest, xgboost, roberta
+  hyperparameter_search: true
+  random_state: 42
+  
+  # Text model specific config
+  text_model:
+    model_name: "roberta-base"
+    max_length: 512
+    learning_rate: 2e-5
+    batch_size: 16
+    num_epochs: 3
+    warmup_steps: 500
+    weight_decay: 0.01
+
+# Fairness configuration
+fairness_thresholds:
+  disparate_impact: [0.8, 1.25]
+  statistical_parity_difference: 0.1
+  equal_opportunity_difference: 0.1
+  average_odds_difference: 0.1
+  demographic_parity: 0.1
+
+# Bias mitigation
+mitigation:
+  method: "reweighing"  # reweighing, optimized_preprocessing, sampling
+  apply_automatically: true
+  use_aif360: true
+
+# Explainability
+explainability:
+  enable_shap: true
+  enable_lime: true
+  sample_size: 100
+  top_features: 20
+
+# Data paths
+paths:
+  data: "data/"
+  raw: "data/raw/"
+  processed: "data/processed/"
+  models: "models/"
+  outputs: "outputs/"
+
+# Computing configuration
+compute:
+  cuda_available: false
+  n_jobs: -1
+  memory_limit: "8GB"
+
+# Pipeline configuration
+pipeline:
+  strict_fairness_gates: true
+  enable_explainability: true
+  apply_mitigation: true
+  save_artifacts: true
+
+# Monitoring configuration
+monitoring:
+  drift_check_interval: 3600  # seconds
+  fairness_check_interval: 3600
+  drift_thresholds:
+    data_drift: 0.1
+    prediction_drift: 0.1
+    psi_threshold: 0.2
+  alert_thresholds:
+    accuracy_drop: 0.05
+    f1_drop: 0.05
+    fairness_violation: true
+
+# Deployment configuration
+deployment:
+  registry: "devethops"
+  image_name: "model-server"
+  version: "latest"
+  namespace: "devethops"
+  replicas: 2
+  python_version: "3.9"
+  
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/devethops.log"
