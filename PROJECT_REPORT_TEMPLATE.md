@@ -1,5 +1,5 @@
 # DevEthOps-LLM-CICD Project Report
-## TMA 05 Submission
+## TMA Submission
 
 ### Executive Summary
 [Brief overview of your ethical AI CI/CD implementation]

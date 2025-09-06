@@ -1,3 +1,0 @@
-[console_scripts]
-devethops-pipeline = devethops.pipeline:main
-devethops-run = scripts.run_pipeline:main

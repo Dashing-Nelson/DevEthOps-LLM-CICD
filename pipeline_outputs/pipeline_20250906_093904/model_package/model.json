@@ -1,6 +1,0 @@
-{
-  "model_type": "random_forest",
-  "feature_names": null,
-  "config": "<devethops.config.ConfigManager object at 0x0000018B47779E80>",
-  "training_timestamp": "2025-09-06T09:40:37.233886"
-}
