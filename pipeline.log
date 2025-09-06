@@ -5699,3 +5699,354 @@ Name: Attrition, Length: 147, dtype: int64, 'y_test': 1061    0
 1023    0
 285     0
 Name: Attrition, Length: 294, dtype: int64, 'preprocessor': <devethops.preprocess.DataPreprocessor object at 0x00000204F02EA7B0>, 'sample_weights': None}}, 'metrics': {'model_performance': {'accuracy': 0.8367346938775511, 'precision': 0.46153846153846156, 'recall': 0.1276595744680851, 'f1_score': 0.2, 'roc_auc': 0.7944267378757861}, 'fairness_passed': True}, 'output_directory': 'pipeline_outputs\\pipeline_20250906_092711', 'config': <devethops.config.ConfigManager object at 0x00000204F02E9E80>}
+2025-09-06 09:38:50,798 - __main__ - INFO - Starting DevEthOps Pipeline
+2025-09-06 09:38:55,681 - root - WARNING - No module named 'inFairness': SenSeI and SenSR will be unavailable. To install, run:
+pip install 'aif360[inFairness]'
+2025-09-06 09:39:04,205 - tensorflow - WARNING - From C:\Users\nelso\AppData\Local\Programs\Python\Python313\Lib\site-packages\tf_keras\src\losses.py:2976: The name tf.losses.sparse_softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.sparse_softmax_cross_entropy instead.
+
+2025-09-06 09:39:04,554 - datasets - INFO - TensorFlow version 2.20.0 available.
+2025-09-06 09:39:04,911 - root - WARNING - SciPy not available. Some drift detection methods will be limited.
+2025-09-06 09:39:04,923 - devethops.config - INFO - Configuration validation passed
+2025-09-06 09:39:04,924 - devethops.config - INFO - Configuration loaded from configs\settings.yaml
+2025-09-06 09:39:04,924 - __main__ - INFO - Configuration loaded from configs/settings.yaml
+2025-09-06 09:39:04,924 - devethops.pipeline - INFO - Initialized pipeline: pipeline_20250906_093904
+2025-09-06 09:39:04,924 - __main__ - INFO - Pipeline initialized
+2025-09-06 09:39:04,924 - __main__ - INFO - Running full pipeline (Build -> Test -> Deploy -> Monitor)
+2025-09-06 09:39:04,924 - devethops.pipeline - INFO - Starting full pipeline: pipeline_20250906_093904
+2025-09-06 09:39:04,925 - devethops.pipeline - INFO - ==================================================
+2025-09-06 09:39:04,925 - devethops.pipeline - INFO - STAGE 1: BUILD
+2025-09-06 09:39:04,925 - devethops.pipeline - INFO - ==================================================
+2025-09-06 09:39:04,925 - devethops.pipeline - INFO - Starting Build stage...
+2025-09-06 09:39:04,925 - devethops.pipeline - INFO - Loading dataset: ibm_hr
+2025-09-06 09:39:04,927 - devethops.data_loader - INFO - Data loaded from cache: data\cache\cached_data_fbae27209a6cd9ca7795b151697362c2.pkl
+2025-09-06 09:39:04,927 - devethops.data_loader - INFO - Dataset loaded: ibm_hr, shape: (1470, 31)
+2025-09-06 09:39:04,928 - devethops.pipeline - INFO - Performing data validation...
+2025-09-06 09:39:04,930 - devethops.pipeline - INFO - Preprocessing data...
+2025-09-06 09:39:04,930 - devethops.preprocess - INFO - Starting preprocessing pipeline...
+2025-09-06 09:39:04,930 - devethops.preprocess - INFO - Creating train/validation/test splits...
+2025-09-06 09:39:04,996 - devethops.preprocess - INFO - X_train: 1029 samples
+2025-09-06 09:39:04,997 - devethops.preprocess - INFO - X_val: 147 samples
+2025-09-06 09:39:04,997 - devethops.preprocess - INFO - X_test: 294 samples
+2025-09-06 09:39:04,997 - devethops.preprocess - INFO - y_train: 1029 samples
+2025-09-06 09:39:04,997 - devethops.preprocess - INFO - y_val: 147 samples
+2025-09-06 09:39:04,997 - devethops.preprocess - INFO - y_test: 294 samples
+2025-09-06 09:39:04,997 - devethops.preprocess - INFO - Fitting and transforming data...
+2025-09-06 09:39:05,000 - devethops.preprocess - INFO - Identified 19 categorical and 12 numerical features
+2025-09-06 09:39:05,014 - devethops.preprocess - INFO - Preprocessing complete. Shape: (1029, 31) -> (1029, 78)
+2025-09-06 09:39:05,028 - devethops.preprocess - INFO - Applying class balancing: smote
+2025-09-06 09:39:05,029 - devethops.preprocess - INFO - Class distribution before balancing: {np.int64(0): np.int64(863), np.int64(1): np.int64(166)}
+2025-09-06 09:39:06,422 - devethops.preprocess - INFO - Class distribution after balancing: {np.int64(0): np.int64(863), np.int64(1): np.int64(863)}
+2025-09-06 09:39:06,422 - devethops.preprocess - INFO - Preprocessing pipeline complete
+2025-09-06 09:39:06,422 - devethops.pipeline - INFO - [PASS] Build stage completed successfully
+2025-09-06 09:39:06,422 - devethops.pipeline - INFO - ==================================================
+2025-09-06 09:39:06,422 - devethops.pipeline - INFO - STAGE 2: TEST
+2025-09-06 09:39:06,423 - devethops.pipeline - INFO - ==================================================
+2025-09-06 09:39:06,423 - devethops.pipeline - INFO - Starting Test stage...
+2025-09-06 09:39:06,423 - devethops.pipeline - INFO - Training random_forest model...
+2025-09-06 09:39:06,423 - devethops.models_tabular - INFO - Training Random Forest model...
+2025-09-06 09:40:32,534 - devethops.models_tabular - INFO - Random Forest training complete
+2025-09-06 09:40:32,534 - devethops.pipeline - INFO - Evaluating model performance...
+2025-09-06 09:40:32,535 - devethops.models_tabular - INFO - Evaluating model...
+2025-09-06 09:40:32,627 - devethops.models_tabular - INFO - Model evaluation complete. F1-score: 0.2000
+2025-09-06 09:40:32,628 - devethops.pipeline - INFO - No protected attributes specified. Skipping fairness evaluation.
+2025-09-06 09:40:32,628 - devethops.pipeline - INFO - Generating model explanations...
+2025-09-06 09:40:32,628 - devethops.explainability - INFO - Starting explainability analysis for tabular model...
+2025-09-06 09:40:32,677 - devethops.explainability - INFO - SHAP explainer initialized: TreeExplainer
+2025-09-06 09:40:32,714 - devethops.explainability - INFO - LIME explainer initialized
+2025-09-06 09:40:32,714 - devethops.explainability - INFO - Generating global explanations...
+2025-09-06 09:40:32,714 - devethops.explainability - INFO - Generating global SHAP explanations...
+2025-09-06 09:40:36,473 - devethops.explainability - ERROR - Error generating global explanations: Per-column arrays must each be 1-dimensional
+2025-09-06 09:40:36,473 - devethops.explainability - INFO - Generating sample local explanations...
+2025-09-06 09:40:36,486 - devethops.explainability - ERROR - Error generating SHAP local explanation: Per-column arrays must each be 1-dimensional
+2025-09-06 09:40:36,626 - devethops.explainability - ERROR - Error generating SHAP local explanation: Per-column arrays must each be 1-dimensional
+2025-09-06 09:40:36,765 - devethops.explainability - ERROR - Error generating SHAP local explanation: Per-column arrays must each be 1-dimensional
+2025-09-06 09:40:36,904 - devethops.explainability - ERROR - Error generating SHAP local explanation: Per-column arrays must each be 1-dimensional
+2025-09-06 09:40:37,043 - devethops.explainability - ERROR - Error generating SHAP local explanation: Per-column arrays must each be 1-dimensional
+2025-09-06 09:40:37,175 - devethops.explainability - INFO - Explainability analysis complete
+2025-09-06 09:40:37,176 - devethops.pipeline - INFO - [PASS] Test stage completed successfully
+2025-09-06 09:40:37,176 - devethops.pipeline - INFO - ==================================================
+2025-09-06 09:40:37,177 - devethops.pipeline - INFO - STAGE 3: DEPLOY
+2025-09-06 09:40:37,177 - devethops.pipeline - INFO - ==================================================
+2025-09-06 09:40:37,177 - devethops.pipeline - INFO - Starting Deploy stage...
+2025-09-06 09:40:37,177 - devethops.pipeline - INFO - Packaging model...
+2025-09-06 09:40:37,234 - devethops.models_tabular - INFO - Model saved to pipeline_outputs\pipeline_20250906_093904\model_package\model.joblib
+2025-09-06 09:40:37,234 - devethops.pipeline - INFO - Creating Docker image...
+2025-09-06 09:40:37,234 - devethops.deploy - INFO - Creating Docker image for model deployment...
+2025-09-06 09:40:37,244 - devethops.pipeline - INFO - Generating Kubernetes manifests...
+2025-09-06 09:40:37,244 - devethops.deploy - INFO - Generating Kubernetes manifests...
+2025-09-06 09:40:37,252 - devethops.pipeline - INFO - Setting up health checks...
+2025-09-06 09:40:37,253 - devethops.pipeline - INFO - [PASS] Deploy stage completed successfully
+2025-09-06 09:40:37,253 - devethops.pipeline - INFO - ==================================================
+2025-09-06 09:40:37,253 - devethops.pipeline - INFO - STAGE 4: MONITOR
+2025-09-06 09:40:37,253 - devethops.pipeline - INFO - ==================================================
+2025-09-06 09:40:37,253 - devethops.pipeline - INFO - Starting Monitor stage...
+2025-09-06 09:40:37,253 - devethops.pipeline - INFO - Setting up drift detection...
+2025-09-06 09:40:37,254 - devethops.monitoring - INFO - Reference data set with 1726 samples
+2025-09-06 09:40:37,254 - devethops.pipeline - INFO - Setting up fairness monitoring...
+2025-09-06 09:40:37,254 - devethops.pipeline - INFO - Creating monitoring configuration...
+2025-09-06 09:40:37,254 - devethops.pipeline - INFO - Setting up alerts...
+2025-09-06 09:40:37,254 - devethops.pipeline - INFO - [PASS] Monitor stage completed successfully
+2025-09-06 09:40:37,257 - devethops.pipeline - INFO - Pipeline results saved to pipeline_outputs\pipeline_20250906_093904
+2025-09-06 09:40:37,257 - devethops.pipeline - INFO - [PASS] Pipeline completed successfully in 92.33 seconds
+2025-09-06 09:40:37,257 - __main__ - INFO - Pipeline completed successfully
+2025-09-06 09:40:37,326 - __main__ - INFO - Results: {'pipeline_id': 'pipeline_20250906_093904', 'execution_time_seconds': 92.32986950874329, 'fairness_gates_passed': True, 'stage_results': {'build': {'stage': 'build', 'dataset_name': 'ibm_hr', 'protected_attributes': None, 'mitigation_applied': True, 'dataset_shape': (1470, 31), 'class_distribution': {0: 1233, 1: 237}, 'data_validation': {'passed': True, 'issues': [], 'warnings': [], 'stats': {'num_samples': 1470, 'num_features': 31, 'missing_percentage': np.float64(0.0), 'class_distribution': {0: 1233, 1: 237}, 'min_class_ratio': np.float64(0.1922141119221411)}}, 'preprocessing': {'X_train': array([[-1.42053318, -0.08864378, -1.01433516, ...,  0.        ,
+         0.        ,  1.        ],
+       [-0.76377327, -0.8530802 , -0.64698971, ...,  0.        ,
+         0.        ,  1.        ],
+       [-0.5448533 ,  0.39193026, -1.01433516, ...,  0.        ,
+         0.        ,  0.        ],
+       ...,
+       [-1.74946942, -1.16384605, -0.27839965, ...,  0.        ,
+         0.        ,  1.        ],
+       [-0.31639467, -0.14825133,  0.39119852, ...,  0.        ,
+         0.        ,  0.        ],
+       [-0.18443424, -1.27340911,  2.03193549, ...,  0.04878358,
+         0.        ,  0.        ]], shape=(1726, 78)), 'X_val': array([[-0.5448533 ,  0.39940032, -0.15719577, ...,  0.        ,
+         0.        ,  0.        ],
+       [ 1.31596645,  1.71413137, -0.52454122, ...,  1.        ,
+         0.        ,  0.        ],
+       [ 0.76866652,  0.72310304,  0.0877012 , ...,  1.        ,
+         0.        ,  0.        ],
+       ...,
+       [-0.32593333, -1.29879394,  2.41422239, ...,  0.        ,
+         0.        ,  0.        ],
+       [-1.09215322,  1.4203089 , -0.89188667, ...,  0.        ,
+         0.        ,  1.        ],
+       [-0.65431328, -0.47459702,  0.33259817, ...,  0.        ,
+         0.        ,  0.        ]], shape=(147, 78)), 'X_test': array([[-1.42053318,  0.05826746,  0.45504665, ...,  0.        ,
+         0.        ,  1.        ],
+       [ 0.76866652,  0.77290346, -0.89188667, ...,  1.        ,
+         0.        ,  0.        ],
+       [-0.65431328, -0.29531551, -0.27964425, ...,  0.        ,
+         0.        ,  0.        ],
+       ...,
+       [-0.10701336,  1.61702055,  0.45504665, ...,  0.        ,
+         0.        ,  0.        ],
+       [ 2.08218634,  1.11652635, -1.01433516, ...,  0.        ,
+         1.        ,  0.        ],
+       [ 0.00244663,  1.40785879, -1.01433516, ...,  0.        ,
+         0.        ,  0.        ]], shape=(294, 78)), 'y_train': 0       0
+1       1
+2       1
+3       0
+4       0
+       ..
+1721    1
+1722    1
+1723    1
+1724    1
+1725    1
+Name: Attrition, Length: 1726, dtype: int64, 'y_val': 154     0
+1044    0
+857     1
+803     0
+685     0
+       ..
+738     0
+579     0
+979     0
+320     0
+690     0
+Name: Attrition, Length: 147, dtype: int64, 'y_test': 1061    0
+891     0
+456     0
+922     0
+69      1
+       ..
+1269    0
+1352    0
+1236    1
+1023    0
+285     0
+Name: Attrition, Length: 294, dtype: int64, 'preprocessor': <devethops.preprocess.DataPreprocessor object at 0x0000018B4777A7B0>, 'preprocessing_info': {'categorical_features': ['BusinessTravel', 'Department', 'Education', 'EducationField', 'EnvironmentSatisfaction', 'Gender', 'JobInvolvement', 'JobLevel', 'JobRole', 'JobSatisfaction', 'MaritalStatus', 'NumCompaniesWorked', 'OverTime', 'PerformanceRating', 'RelationshipSatisfaction', 'StockOptionLevel', 'TrainingTimesLastYear', 'WorkLifeBalance', 'AgeBucket'], 'numerical_features': ['Age', 'DailyRate', 'DistanceFromHome', 'HourlyRate', 'MonthlyIncome', 'MonthlyRate', 'PercentSalaryHike', 'TotalWorkingYears', 'YearsAtCompany', 'YearsInCurrentRole', 'YearsSinceLastPromotion', 'YearsWithCurrManager'], 'feature_names': ['Age', 'DailyRate', 'DistanceFromHome', 'HourlyRate', 'MonthlyIncome', 'MonthlyRate', 'PercentSalaryHike', 'TotalWorkingYears', 'YearsAtCompany', 'YearsInCurrentRole', 'YearsSinceLastPromotion', 'YearsWithCurrManager', 'BusinessTravel_Travel_Frequently', 'BusinessTravel_Travel_Rarely', 'Department_Research & Development', 'Department_Sales', 'Education_2', 'Education_3', 'Education_4', 'Education_5', 'EducationField_Life Sciences', 'EducationField_Marketing', 'EducationField_Medical', 'EducationField_Other', 'EducationField_Technical Degree', 'EnvironmentSatisfaction_2', 'EnvironmentSatisfaction_3', 'EnvironmentSatisfaction_4', 'Gender_Male', 'JobInvolvement_2', 'JobInvolvement_3', 'JobInvolvement_4', 'JobLevel_2', 'JobLevel_3', 'JobLevel_4', 'JobLevel_5', 'JobRole_Human Resources', 'JobRole_Laboratory Technician', 'JobRole_Manager', 'JobRole_Manufacturing Director', 'JobRole_Research Director', 'JobRole_Research Scientist', 'JobRole_Sales Executive', 'JobRole_Sales Representative', 'JobSatisfaction_2', 'JobSatisfaction_3', 'JobSatisfaction_4', 'MaritalStatus_Married', 'MaritalStatus_Single', 'NumCompaniesWorked_1', 'NumCompaniesWorked_2', 'NumCompaniesWorked_3', 'NumCompaniesWorked_4', 'NumCompaniesWorked_5', 'NumCompaniesWorked_6', 'NumCompaniesWorked_7', 'NumCompaniesWorked_8', 'NumCompaniesWorked_9', 'OverTime_Yes', 'PerformanceRating_4', 'RelationshipSatisfaction_2', 'RelationshipSatisfaction_3', 'RelationshipSatisfaction_4', 'StockOptionLevel_1', 'StockOptionLevel_2', 'StockOptionLevel_3', 'TrainingTimesLastYear_1', 'TrainingTimesLastYear_2', 'TrainingTimesLastYear_3', 'TrainingTimesLastYear_4', 'TrainingTimesLastYear_5', 'TrainingTimesLastYear_6', 'WorkLifeBalance_2', 'WorkLifeBalance_3', 'WorkLifeBalance_4', 'AgeBucket_40-50', 'AgeBucket_50+', 'AgeBucket_<30'], 'protected_attributes': [], 'original_shape': (1029, 31), 'transformed_shape': (1029, 78)}, 'original_splits': {'X_train':       Age     BusinessTravel  DailyRate              Department  DistanceFromHome  ...  YearsAtCompany YearsInCurrentRole  YearsSinceLastPromotion YearsWithCurrManager  AgeBucket
+1407   24      Travel_Rarely        771  Research & Development                 1  ...               4                  3                        1                    2        <30
+385    30  Travel_Frequently        464  Research & Development                 4  ...               1                  0                        0                    0        <30
+1237   32      Travel_Rarely        964                   Sales                 1  ...               0                  0                        0                    0      30-40
+634    25      Travel_Rarely        141                   Sales                 3  ...               5                  3                        0                    3        <30
+923    34  Travel_Frequently        648         Human Resources                11  ...              10                  9                        1                    8      30-40
+...   ...                ...        ...                     ...               ...  ...             ...                ...                      ...                  ...        ...
+943    46      Travel_Rarely        991         Human Resources                 1  ...               7                  6                        5                    7      40-50
+1032   39         Non-Travel        592  Research & Development                 2  ...               1                  0                        0                    0      30-40
+37     35      Travel_Rarely        890                   Sales                 2  ...               2                  2                        2                    2      30-40
+441    42  Travel_Frequently       1474  Research & Development                 5  ...               2                  2                        2                    0      40-50
+253    42      Travel_Rarely        916  Research & Development                17  ...               3                  2                        0                    2      40-50
+
+[1029 rows x 31 columns], 'X_val':       Age     BusinessTravel  DailyRate              Department  DistanceFromHome  ...  YearsAtCompany YearsInCurrentRole  YearsSinceLastPromotion YearsWithCurrManager  AgeBucket
+154    32  Travel_Frequently        967                   Sales                 8  ...               9                  8                        3                    7      30-40
+1044   49      Travel_Rarely       1495  Research & Development                 5  ...               3                  2                        1                    2      40-50
+857    44      Travel_Rarely       1097  Research & Development                10  ...               6                  4                        0                    2      40-50
+803    34         Non-Travel        697  Research & Development                 3  ...               0                  0                        0                    0      30-40
+685    26  Travel_Frequently       1283                   Sales                 1  ...               7                  7                        0                    7        <30
+...   ...                ...        ...                     ...               ...  ...             ...                ...                      ...                  ...        ...
+738    39      Travel_Rarely        466  Research & Development                 1  ...              21                  6                       11                    8      30-40
+579    34      Travel_Rarely        121  Research & Development                 2  ...               6                  5                        1                    3      30-40
+979    34      Travel_Rarely        285  Research & Development                29  ...               8                  7                        7                    7      30-40
+320    27      Travel_Rarely       1377                   Sales                 2  ...               5                  4                        0                    4        <30
+690    31      Travel_Rarely        616  Research & Development                12  ...               9                  7                        8                    5      30-40
+
+[147 rows x 31 columns], 'X_test':       Age BusinessTravel  DailyRate              Department  DistanceFromHome  ...  YearsAtCompany YearsInCurrentRole  YearsSinceLastPromotion YearsWithCurrManager  AgeBucket
+1061   24     Non-Travel        830                   Sales                13  ...               1                  0                        0                    0        <30
+891    44  Travel_Rarely       1117  Research & Development                 2  ...              10                  5                        7                    7      40-50
+456    31  Travel_Rarely        688                   Sales                 7  ...               5                  4                        0                    1      30-40
+922    44  Travel_Rarely       1199  Research & Development                 4  ...              25                  9                       14                   13      40-50
+69     36  Travel_Rarely        318  Research & Development                 9  ...               1                  0                        0                    0      30-40
+...   ...            ...        ...                     ...               ...  ...             ...                ...                      ...                  ...        ...
+1269   43  Travel_Rarely        244         Human Resources                 2  ...               9                  7                        1                    8      40-50
+1352   44  Travel_Rarely        170  Research & Development                 1  ...               2                  0                        2                    2      40-50
+1236   36  Travel_Rarely       1456                   Sales                13  ...               2                  2                        2                    2      30-40
+1023   56  Travel_Rarely       1255  Research & Development                 1  ...               3                  2                        1                    0        50+
+285    37  Travel_Rarely       1372  Research & Development                 1  ...              17                 12                        5                    7      30-40
+
+[294 rows x 31 columns], 'y_train': 1407    0
+385     1
+1237    1
+634     0
+923     0
+       ..
+943     0
+1032    1
+37      0
+441     0
+253     0
+Name: Attrition, Length: 1029, dtype: int64, 'y_val': 154     0
+1044    0
+857     1
+803     0
+685     0
+       ..
+738     0
+579     0
+979     0
+320     0
+690     0
+Name: Attrition, Length: 147, dtype: int64, 'y_test': 1061    0
+891     0
+456     0
+922     0
+69      1
+       ..
+1269    0
+1352    0
+1236    1
+1023    0
+285     0
+Name: Attrition, Length: 294, dtype: int64}}}, 'test': {'stage': 'test', 'model_type': 'random_forest', 'protected_attributes': None, 'model_training': {'model_type': 'random_forest', 'best_params': {'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 200}, 'feature_names': None, 'model_object': RandomForestClassifier(n_estimators=200, n_jobs=-1, random_state=42), 'trainer': <devethops.models_tabular.TabularModelTrainer object at 0x0000018B4777ABA0>}, 'performance_metrics': {'accuracy': 0.8367346938775511, 'precision': 0.46153846153846156, 'recall': 0.1276595744680851, 'f1_score': 0.2, 'roc_auc': 0.7944267378757861}, 'fairness_gates_passed': True, 'explainability': {'model_type': 'tabular', 'global_explanation': {'error': 'Per-column arrays must each be 1-dimensional'}, 'sample_local_explanations': [{'shap': {'error': 'Per-column arrays must each be 1-dimensional'}, 'lime': {'explanation':              feature  importance
+0         58 <= 0.00   -0.128251
+1  0.00 < 48 <= 1.00    0.078202
+2           0 > 0.44   -0.044795
+3  0.18 < 17 <= 1.00    0.041393
+4         37 <= 0.00   -0.040730
+5         12 <= 0.00   -0.036496
+6         2 <= -0.77   -0.031412
+7         55 <= 0.00   -0.029555
+8         8 <= -0.81    0.029337
+9         47 <= 0.00   -0.028595, 'explanation_object': <lime.explanation.Explanation object at 0x0000018B47874EC0>}, 'instance_index': np.int32(246)}, {'shap': {'error': 'Per-column arrays must each be 1-dimensional'}, 'lime': {'explanation':              feature  importance
+0         58 <= 0.00   -0.134076
+1  0.00 < 48 <= 1.00    0.075621
+2         17 <= 0.00   -0.040702
+3          37 > 0.47    0.034889
+4         12 <= 0.00   -0.032324
+5         47 <= 0.00   -0.030823
+6          26 > 0.96   -0.028013
+7         42 <= 0.00   -0.026570
+8         73 <= 0.00   -0.026388
+9         55 <= 0.00   -0.023750, 'explanation_object': <lime.explanation.Explanation object at 0x0000018B4779AFD0>}, 'instance_index': np.int32(46)}, {'shap': {'error': 'Per-column arrays must each be 1-dimensional'}, 'lime': {'explanation':              feature  importance
+0  0.00 < 58 <= 1.00    0.131814
+1         48 <= 0.00   -0.077672
+2         17 <= 0.00   -0.041395
+3         37 <= 0.00   -0.036759
+4         12 <= 0.00   -0.035407
+5         2 <= -0.77   -0.030817
+6         8 <= -0.81    0.029430
+7         73 <= 0.00   -0.029061
+8  0.00 < 47 <= 1.00    0.022837
+9         55 <= 0.00   -0.022401, 'explanation_object': <lime.explanation.Explanation object at 0x0000018B4787C2D0>}, 'instance_index': np.int32(156)}, {'shap': {'error': 'Per-column arrays must each be 1-dimensional'}, 'lime': {'explanation':               feature  importance
+0          58 <= 0.00   -0.130580
+1          48 <= 0.00   -0.078074
+2          17 <= 0.00   -0.040100
+3          12 <= 0.00   -0.038554
+4          37 <= 0.00   -0.036313
+5          40 <= 0.00    0.035720
+6   0.00 < 47 <= 1.00    0.029972
+7  -0.87 < 0 <= -0.36    0.029233
+8           26 > 0.96   -0.025454
+9   0.00 < 15 <= 1.00    0.023531, 'explanation_object': <lime.explanation.Explanation object at 0x0000018B4776F6F0>}, 'instance_index': np.int32(258)}, {'shap': {'error': 'Per-column arrays must each be 1-dimensional'}, 'lime': {'explanation':              feature  importance
+0         58 <= 0.00   -0.130914
+1         48 <= 0.00   -0.079958
+2         17 <= 0.00   -0.040022
+3         12 <= 0.00   -0.036282
+4          37 > 0.47    0.034950
+5         40 <= 0.00    0.033605
+6  0.00 < 47 <= 1.00    0.031879
+7         2 <= -0.77   -0.029172
+8         55 <= 0.00   -0.028713
+9         42 <= 0.00   -0.026099, 'explanation_object': <lime.explanation.Explanation object at 0x0000018B4776EB10>}, 'instance_index': np.int32(114)}], 'fairness_explanations': {}, 'plots': [], 'report': '============================================================\nEXPLAINABILITY ANALYSIS REPORT\n============================================================\nModel Type: tabular\n\nLOCAL EXPLANATIONS (5 samples):\n\n\n============================================================'}, 'best_model': {'model': RandomForestClassifier(n_estimators=200, n_jobs=-1, random_state=42), 'trainer': <devethops.models_tabular.TabularModelTrainer object at 0x0000018B4777ABA0>, 'type': 'random_forest', 'performance': {'accuracy': 0.8367346938775511, 'precision': 0.46153846153846156, 'recall': 0.1276595744680851, 'f1_score': 0.2, 'roc_auc': 0.7944267378757861}}}, 'deploy': {'stage': 'deploy', 'docker': {'dockerfile_path': 'pipeline_outputs\\pipeline_20250906_093904\\Dockerfile', 'requirements_path': 'pipeline_outputs\\pipeline_20250906_093904\\requirements.txt', 'app_path': 'pipeline_outputs\\pipeline_20250906_093904\\app.py', 'health_check_path': 'pipeline_outputs\\pipeline_20250906_093904\\health_check.py', 'build_script_path': 'pipeline_outputs\\pipeline_20250906_093904\\build.sh', 'image_tag': 'devethops/model-server:latest', 'build_command': 'cd pipeline_outputs\\pipeline_20250906_093904 && ./build.sh'}, 'kubernetes': {'deployment_path': 'pipeline_outputs\\pipeline_20250906_093904\\k8s\\deployment.yaml', 'service_path': 'pipeline_outputs\\pipeline_20250906_093904\\k8s\\service.yaml', 'configmap_path': 'pipeline_outputs\\pipeline_20250906_093904\\k8s\\configmap.yaml', 'ingress_path': 'pipeline_outputs\\pipeline_20250906_093904\\k8s\\ingress.yaml', 'deploy_script_path': 'pipeline_outputs\\pipeline_20250906_093904\\k8s\\deploy.sh', 'namespace': 'devethops', 'app_name': 'devethops-pipeline'}, 'health_checks': {'liveness_probe': {'http_get': {'path': '/health', 'port': 8000}, 'initial_delay_seconds': 30, 'period_seconds': 10, 'timeout_seconds': 5, 'failure_threshold': 3}, 'readiness_probe': {'http_get': {'path': '/ready', 'port': 8000}, 'initial_delay_seconds': 5, 'period_seconds': 5, 'timeout_seconds': 3, 'failure_threshold': 3}, 'startup_probe': {'http_get': {'path': '/startup', 'port': 8000}, 'initial_delay_seconds': 10, 'period_seconds': 10, 'timeout_seconds': 5, 'failure_threshold': 30}}}, 'monitor': {'stage': 'monitor', 'drift_detection': {'drift_detection_enabled': True, 'reference_data_shape': (1726, 78), 'thresholds': {'data_drift': 0.1, 'prediction_drift': 0.1, 'psi_threshold': 0.2}}, 'fairness_monitoring': {'fairness_monitoring_enabled': False, 'reason': 'No protected attributes specified'}, 'monitoring_config': {'pipeline_id': 'pipeline_20250906_093904', 'monitoring_enabled': True, 'drift_detection': {'enabled': True, 'check_interval_seconds': 3600, 'thresholds': {'data_drift': 0.1, 'prediction_drift': 0.1, 'psi_threshold': 0.2}}, 'fairness_monitoring': {'enabled': False, 'check_interval_seconds': 3600, 'protected_attributes': []}, 'alerting': {'enabled': True, 'thresholds': {'accuracy_drop': 0.05, 'f1_drop': 0.05, 'fairness_violation': True}}, 'metrics_retention_hours': 168, 'prometheus_config': {'job_name': 'devethops_model_pipeline_20250906_093904', 'metrics_endpoint': '/metrics', 'scrape_interval': '30s', 'metrics': ['model_accuracy', 'model_f1_score', 'data_drift_score', 'prediction_drift_score', 'fairness_violations_total', 'predictions_total']}, 'grafana_config': {'dashboard_name': 'DevEthOps Model Monitoring - pipeline_20250906_093904', 'panels': [{'title': 'Model Performance', 'metrics': ['model_accuracy', 'model_f1_score'], 'type': 'time_series'}, {'title': 'Drift Detection', 'metrics': ['data_drift_score', 'prediction_drift_score'], 'type': 'time_series'}, {'title': 'Fairness Monitoring', 'metrics': ['fairness_violations_total'], 'type': 'stat'}, {'title': 'Prediction Volume', 'metrics': ['predictions_total'], 'type': 'time_series'}]}}, 'alerts': {'alert_channels': ['stdout', 'logs'], 'alert_rules': [{'name': 'data_drift_high', 'condition': 'data_drift_score > 0.2', 'severity': 'warning'}, {'name': 'fairness_violation', 'condition': 'fairness_gates_failed = true', 'severity': 'critical'}, {'name': 'performance_degradation', 'condition': 'f1_score_drop > 0.05', 'severity': 'warning'}], 'notification_channels': {'stdout': {'enabled': True}, 'prometheus': {'enabled': False, 'url': 'http://prometheus:9090'}, 'grafana': {'enabled': False, 'url': 'http://grafana:3000'}}}}}, 'artifacts': {'data': {'X_train': array([[-1.42053318, -0.08864378, -1.01433516, ...,  0.        ,
+         0.        ,  1.        ],
+       [-0.76377327, -0.8530802 , -0.64698971, ...,  0.        ,
+         0.        ,  1.        ],
+       [-0.5448533 ,  0.39193026, -1.01433516, ...,  0.        ,
+         0.        ,  0.        ],
+       ...,
+       [-1.74946942, -1.16384605, -0.27839965, ...,  0.        ,
+         0.        ,  1.        ],
+       [-0.31639467, -0.14825133,  0.39119852, ...,  0.        ,
+         0.        ,  0.        ],
+       [-0.18443424, -1.27340911,  2.03193549, ...,  0.04878358,
+         0.        ,  0.        ]], shape=(1726, 78)), 'X_val': array([[-0.5448533 ,  0.39940032, -0.15719577, ...,  0.        ,
+         0.        ,  0.        ],
+       [ 1.31596645,  1.71413137, -0.52454122, ...,  1.        ,
+         0.        ,  0.        ],
+       [ 0.76866652,  0.72310304,  0.0877012 , ...,  1.        ,
+         0.        ,  0.        ],
+       ...,
+       [-0.32593333, -1.29879394,  2.41422239, ...,  0.        ,
+         0.        ,  0.        ],
+       [-1.09215322,  1.4203089 , -0.89188667, ...,  0.        ,
+         0.        ,  1.        ],
+       [-0.65431328, -0.47459702,  0.33259817, ...,  0.        ,
+         0.        ,  0.        ]], shape=(147, 78)), 'X_test': array([[-1.42053318,  0.05826746,  0.45504665, ...,  0.        ,
+         0.        ,  1.        ],
+       [ 0.76866652,  0.77290346, -0.89188667, ...,  1.        ,
+         0.        ,  0.        ],
+       [-0.65431328, -0.29531551, -0.27964425, ...,  0.        ,
+         0.        ,  0.        ],
+       ...,
+       [-0.10701336,  1.61702055,  0.45504665, ...,  0.        ,
+         0.        ,  0.        ],
+       [ 2.08218634,  1.11652635, -1.01433516, ...,  0.        ,
+         1.        ,  0.        ],
+       [ 0.00244663,  1.40785879, -1.01433516, ...,  0.        ,
+         0.        ,  0.        ]], shape=(294, 78)), 'y_train': 0       0
+1       1
+2       1
+3       0
+4       0
+       ..
+1721    1
+1722    1
+1723    1
+1724    1
+1725    1
+Name: Attrition, Length: 1726, dtype: int64, 'y_val': 154     0
+1044    0
+857     1
+803     0
+685     0
+       ..
+738     0
+579     0
+979     0
+320     0
+690     0
+Name: Attrition, Length: 147, dtype: int64, 'y_test': 1061    0
+891     0
+456     0
+922     0
+69      1
+       ..
+1269    0
+1352    0
+1236    1
+1023    0
+285     0
+Name: Attrition, Length: 294, dtype: int64, 'preprocessor': <devethops.preprocess.DataPreprocessor object at 0x0000018B4777A7B0>, 'sample_weights': None}}, 'metrics': {'model_performance': {'accuracy': 0.8367346938775511, 'precision': 0.46153846153846156, 'recall': 0.1276595744680851, 'f1_score': 0.2, 'roc_auc': 0.7944267378757861}, 'fairness_passed': True}, 'output_directory': 'pipeline_outputs\\pipeline_20250906_093904', 'config': <devethops.config.ConfigManager object at 0x0000018B47779E80>}

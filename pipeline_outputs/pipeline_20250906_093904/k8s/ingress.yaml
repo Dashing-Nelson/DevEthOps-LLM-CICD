@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+  labels:
+    app: devethops-pipeline
+    pipeline: pipeline_20250906_093904
+  name: devethops-pipeline-ingress
+  namespace: devethops
+spec:
+  rules:
+  - host: devethops-pipeline.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: devethops-pipeline-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
