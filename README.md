@@ -31,7 +31,7 @@ DevEthOps-LLM-CICD is a comprehensive ethical CI/CD pipeline solution for machin
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Dashing-Nelson/DevEthOps-LLM-CICD
 cd DevEthOps-LLM-CICD
 
 # Create virtual environment
@@ -413,9 +413,9 @@ If you use this work in your research, please cite:
 ```bibtex
 @software{devethops_llm_cicd,
   title={DevEthOps-LLM-CICD: Ethical CI/CD Pipeline for Machine Learning},
-  author={Your Name},
-  year={2024},
-  url={https://github.com/yourorg/DevEthOps-LLM-CICD}
+  author={Nelson Alfonso},
+  year={2025},
+  url={https://github.com/Dashing-Nelson/DevEthOps-LLM-CICD}
 }
 ```
 
