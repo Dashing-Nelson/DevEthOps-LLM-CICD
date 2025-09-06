@@ -7,9 +7,15 @@ model parameters, and pipeline settings.
 
 import os
 import yaml
+import warnings
 from pathlib import Path
 from typing import Dict, Any, Optional
 import logging
+
+# Suppress common fairness library warnings
+warnings.filterwarnings('ignore', message='.*tensorflow.*')
+warnings.filterwarnings('ignore', message='.*fairlearn.*')
+warnings.filterwarnings('ignore', message='.*inFairness.*')
 
 logger = logging.getLogger(__name__)
 

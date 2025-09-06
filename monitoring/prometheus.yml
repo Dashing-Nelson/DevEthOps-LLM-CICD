@@ -1,0 +1,37 @@
+# Prometheus configuration for DevEthOps monitoring
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "rules/*.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  # DevEthOps API metrics
+  - job_name: 'devethops-api'
+    static_configs:
+      - targets: ['devethops-api:8000']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Node exporter for system metrics
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # cAdvisor for container metrics
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']

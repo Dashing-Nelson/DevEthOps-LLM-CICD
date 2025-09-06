@@ -1,0 +1,95 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+docs/_build/
+site/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Pipeline outputs (large files)
+pipeline_outputs/*
+!pipeline_outputs/.gitkeep
+
+# Data files (potentially large)
+data/raw/*
+data/processed/*
+data/cache/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/cache/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+tmp/
+temp/
+
+# Model files (potentially large)
+*.joblib
+*.pkl
+*.h5
+*.pt
+*.pth
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node modules (if any frontend)
+node_modules/
+
+# Docker
+Dockerfile.dev
+docker-compose.override.yml

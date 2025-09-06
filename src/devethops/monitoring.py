@@ -725,7 +725,7 @@ class ModelMonitor:
     def print_alerts(self) -> None:
         """Print recent alerts to stdout."""
         if not self.alerts:
-            print("✅ No alerts")
+            print("[PASS] No alerts")
             return
         
         print(f"🚨 {len(self.alerts)} ALERTS:")

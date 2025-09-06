@@ -391,9 +391,9 @@ class FairnessEvaluator:
         
         # Log results
         if results['overall_pass']:
-            logger.info("✅ All fairness gates passed!")
+            logger.info("[PASS] All fairness gates passed!")
         else:
-            logger.warning(f"❌ Fairness gates failed: {', '.join(results['failed_metrics'])}")
+            logger.warning(f"[FAIL] Fairness gates failed: {', '.join(results['failed_metrics'])}")
         
         return results
     
@@ -433,12 +433,12 @@ class FairnessEvaluator:
         ]
         
         for metric_name, result in gate_results['individual_results'].items():
-            status = "✅ PASS" if result['pass'] else "❌ FAIL"
+            status = "[PASS] PASS" if result['pass'] else "[FAIL] FAIL"
             report_lines.append(f"  {metric_name}: {result['value']:.4f} (threshold: {result['threshold']}) - {status}")
         
         report_lines.extend([
             "",
-            f"OVERALL RESULT: {'✅ PASS' if gate_results['overall_pass'] else '❌ FAIL'}",
+            f"OVERALL RESULT: {'[PASS] PASS' if gate_results['overall_pass'] else '[FAIL] FAIL'}",
             "=" * 60
         ])
         
@@ -499,10 +499,10 @@ def evaluate_model_fairness(model, X_test: Union[pd.DataFrame, np.ndarray],
     
     # Log summary
     if results['overall_pass']:
-        logger.info("✅ Model passes all fairness evaluations!")
+        logger.info("[PASS] Model passes all fairness evaluations!")
     else:
         failed_attrs = [attr for attr, gate in results['gate_results'].items() 
                        if not gate['overall_pass']]
-        logger.warning(f"❌ Model fails fairness evaluation for: {', '.join(failed_attrs)}")
+        logger.warning(f"[FAIL] Model fails fairness evaluation for: {', '.join(failed_attrs)}")
     
     return results

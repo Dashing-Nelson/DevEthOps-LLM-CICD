@@ -395,7 +395,7 @@ class TabularModelTrainer:
             metadata = {
                 'model_type': self.model_type,
                 'feature_names': self.feature_names,
-                'config': self.config,
+                'config': self.config.get_config() if hasattr(self.config, 'get_config') else str(self.config),
                 'training_timestamp': pd.Timestamp.now().isoformat()
             }
             

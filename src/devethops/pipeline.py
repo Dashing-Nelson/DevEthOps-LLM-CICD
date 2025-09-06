@@ -110,7 +110,7 @@ class EthicalMLPipeline:
             # Check fairness gates
             if not test_results.get('fairness_gates_passed', False):
                 self.fairness_gates_passed = False
-                logger.error("❌ Fairness gates FAILED. Consider applying mitigation or adjusting thresholds.")
+                logger.error("[FAIL] Fairness gates FAILED. Consider applying mitigation or adjusting thresholds.")
                 
                 if self.config.get('strict_fairness_gates', True):
                     raise PipelineError("Pipeline stopped due to fairness gate failures")
@@ -147,11 +147,11 @@ class EthicalMLPipeline:
             # Save results
             self._save_pipeline_results(final_results, output_dir)
             
-            logger.info(f"✅ Pipeline completed successfully in {execution_time:.2f} seconds")
+            logger.info(f"[PASS] Pipeline completed successfully in {execution_time:.2f} seconds")
             return final_results
             
         except Exception as e:
-            logger.error(f"❌ Pipeline failed: {e}")
+            logger.error(f"[FAIL] Pipeline failed: {e}")
             error_results = {
                 'pipeline_id': self.pipeline_id,
                 'status': 'failed',
@@ -227,11 +227,11 @@ class EthicalMLPipeline:
                 'sample_weights': preprocessing_results.get('sample_weights')
             }
             
-            logger.info("✅ Build stage completed successfully")
+            logger.info("[PASS] Build stage completed successfully")
             return results
             
         except Exception as e:
-            logger.error(f"❌ Build stage failed: {e}")
+            logger.error(f"[FAIL] Build stage failed: {e}")
             results['error'] = str(e)
             raise
     
@@ -347,11 +347,11 @@ class EthicalMLPipeline:
                 'fairness_passed': results['fairness_gates_passed']
             })
             
-            logger.info("✅ Test stage completed successfully")
+            logger.info("[PASS] Test stage completed successfully")
             return results
             
         except Exception as e:
-            logger.error(f"❌ Test stage failed: {e}")
+            logger.error(f"[FAIL] Test stage failed: {e}")
             results['error'] = str(e)
             raise
     
@@ -403,11 +403,11 @@ class EthicalMLPipeline:
             health_check_config = self.deployer.create_health_checks()
             results['health_checks'] = health_check_config
             
-            logger.info("✅ Deploy stage completed successfully")
+            logger.info("[PASS] Deploy stage completed successfully")
             return results
             
         except Exception as e:
-            logger.error(f"❌ Deploy stage failed: {e}")
+            logger.error(f"[FAIL] Deploy stage failed: {e}")
             results['error'] = str(e)
             return results
     
@@ -456,11 +456,11 @@ class EthicalMLPipeline:
             alert_config = self.monitor.setup_alerts()
             results['alerts'] = alert_config
             
-            logger.info("✅ Monitor stage completed successfully")
+            logger.info("[PASS] Monitor stage completed successfully")
             return results
             
         except Exception as e:
-            logger.error(f"❌ Monitor stage failed: {e}")
+            logger.error(f"[FAIL] Monitor stage failed: {e}")
             results['error'] = str(e)
             return results
     
@@ -577,7 +577,7 @@ class EthicalMLPipeline:
             "=" * 60,
             f"Pipeline ID: {results.get('pipeline_id', 'Unknown')}",
             f"Execution Time: {results.get('execution_time_seconds', 0):.2f} seconds",
-            f"Fairness Gates Passed: {'✅ YES' if results.get('fairness_gates_passed', False) else '❌ NO'}",
+            f"Fairness Gates Passed: {'[PASS] YES' if results.get('fairness_gates_passed', False) else '[FAIL] NO'}",
             "",
             "STAGE RESULTS:",
             ""
@@ -586,7 +586,7 @@ class EthicalMLPipeline:
         stage_results = results.get('stage_results', {})
         
         for stage_name, stage_data in stage_results.items():
-            status = "✅ SUCCESS" if 'error' not in stage_data else "❌ FAILED"
+            status = "[PASS] SUCCESS" if 'error' not in stage_data else "[FAIL] FAILED"
             lines.append(f"  {stage_name.upper()}: {status}")
             
             if stage_name == 'test' and 'performance_metrics' in stage_data:
@@ -657,12 +657,12 @@ def run_cli_pipeline() -> None:
             output_dir=args.output_dir
         )
         
-        print("\n✅ Pipeline completed successfully!")
+        print("\n[PASS] Pipeline completed successfully!")
         print(f"Results saved to: {results['output_directory']}")
-        print(f"Fairness gates passed: {'✅ YES' if results['fairness_gates_passed'] else '❌ NO'}")
+        print(f"Fairness gates passed: {'[PASS] YES' if results['fairness_gates_passed'] else '[FAIL] NO'}")
         
     except Exception as e:
-        print(f"\n❌ Pipeline failed: {e}")
+        print(f"\n[FAIL] Pipeline failed: {e}")
         sys.exit(1)
 
 

@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 def test_data_loading():
     """Test if the dataset can be loaded correctly."""
-    print("🔍 Testing data loading...")
+    print("[CHECKING] Testing data loading...")
     
     try:
         from devethops.data_loader import DataLoader
@@ -30,7 +30,7 @@ def test_data_loading():
         # Load IBM HR dataset
         features, target = data_loader.load_ibm_hr_data()
         
-        print(f"✅ Data loaded successfully!")
+        print(f"[PASS] Data loaded successfully!")
         print(f"   - Features shape: {features.shape}")
         print(f"   - Target shape: {target.shape}")
         print(f"   - Feature columns: {list(features.columns)}")
@@ -43,12 +43,12 @@ def test_data_loading():
         return True, data
         
     except Exception as e:
-        print(f"❌ Data loading failed: {str(e)}")
+        print(f"[FAIL] Data loading failed: {str(e)}")
         return False, None
 
 def test_preprocessing(data):
     """Test preprocessing pipeline."""
-    print("\n🔧 Testing preprocessing...")
+    print("\n[PROCESSING] Testing preprocessing...")
     
     try:
         from devethops.preprocess import DataPreprocessor
@@ -60,7 +60,7 @@ def test_preprocessing(data):
         # Preprocess data
         X_train, X_test, y_train, y_test = preprocessor.preprocess_data(data, 'Attrition')
         
-        print(f"✅ Preprocessing completed!")
+        print(f"[PASS] Preprocessing completed!")
         print(f"   - Training set: {X_train.shape}")
         print(f"   - Test set: {X_test.shape}")
         print(f"   - Features: {X_train.shape[1]}")
@@ -68,12 +68,12 @@ def test_preprocessing(data):
         return True, (X_train, X_test, y_train, y_test)
         
     except Exception as e:
-        print(f"❌ Preprocessing failed: {str(e)}")
+        print(f"[FAIL] Preprocessing failed: {str(e)}")
         return False, None
 
 def test_model_training(data_splits):
     """Test model training."""
-    print("\n🤖 Testing model training...")
+    print("\n[MODEL] Testing model training...")
     
     try:
         from devethops.models_tabular import TabularModelTrainer
@@ -92,7 +92,7 @@ def test_model_training(data_splits):
         predictions = model.predict(X_test)
         accuracy = (predictions == y_test).mean()
         
-        print(f"✅ Model training completed!")
+        print(f"[PASS] Model training completed!")
         print(f"   - Model type: {training_results['model_type']}")
         print(f"   - Test accuracy: {accuracy:.3f}")
         print(f"   - Number of features: {len(training_results.get('feature_names', []))}")
@@ -100,12 +100,12 @@ def test_model_training(data_splits):
         return True, model
         
     except Exception as e:
-        print(f"❌ Model training failed: {str(e)}")
+        print(f"[FAIL] Model training failed: {str(e)}")
         return False, None
 
 def test_fairness_check(data, model, data_splits):
     """Test fairness evaluation."""
-    print("\n⚖️ Testing fairness checks...")
+    print("\n[FAIRNESS] Testing fairness checks...")
     
     try:
         from devethops.fairness_checks import FairnessEvaluator
@@ -130,7 +130,7 @@ def test_fairness_check(data, model, data_splits):
                 'predictions'
             )
             
-            print(f"✅ Fairness evaluation completed!")
+            print(f"[PASS] Fairness evaluation completed!")
             print(f"   - Protected attribute: Gender")
             print(f"   - Metrics computed: {list(fairness_results.keys())}")
             
@@ -139,47 +139,47 @@ def test_fairness_check(data, model, data_splits):
             if violations:
                 print(f"   - ⚠️ Fairness violations detected: {len(violations)}")
             else:
-                print(f"   - ✅ No fairness violations detected")
+                print(f"   - [PASS] No fairness violations detected")
         else:
             print(f"   - ⚠️ Gender column not found, skipping detailed fairness check")
         
         return True
         
     except Exception as e:
-        print(f"❌ Fairness evaluation failed: {str(e)}")
+        print(f"[FAIL] Fairness evaluation failed: {str(e)}")
         return False
 
 def main():
     """Main test function."""
-    print("🚀 DevEthOps Pipeline Test")
+    print("[START] DevEthOps Pipeline Test")
     print("=" * 50)
     
     # Test 1: Data Loading
     success, data = test_data_loading()
     if not success:
-        print("\n❌ Pipeline test failed at data loading stage")
+        print("\n[FAIL] Pipeline test failed at data loading stage")
         return False
     
     # Test 2: Preprocessing
     success, data_splits = test_preprocessing(data)
     if not success:
-        print("\n❌ Pipeline test failed at preprocessing stage")
+        print("\n[FAIL] Pipeline test failed at preprocessing stage")
         return False
     
     # Test 3: Model Training
     success, model = test_model_training(data_splits)
     if not success:
-        print("\n❌ Pipeline test failed at model training stage")
+        print("\n[FAIL] Pipeline test failed at model training stage")
         return False
     
     # Test 4: Fairness Check
     success = test_fairness_check(data, model, data_splits)
     if not success:
-        print("\n❌ Pipeline test failed at fairness evaluation stage")
+        print("\n[FAIL] Pipeline test failed at fairness evaluation stage")
         return False
     
     print("\n" + "=" * 50)
-    print("🎉 All tests passed! The DevEthOps pipeline is working correctly.")
+    print("[SUCCESS] All tests passed! The DevEthOps pipeline is working correctly.")
     print("\nNext steps:")
     print("1. Install required dependencies: pip install -r requirements.txt")
     print("2. Run full pipeline: python scripts/run_pipeline.py")
