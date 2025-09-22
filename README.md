@@ -411,11 +411,21 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you use this work in your research, please cite:
 
 ```bibtex
-@software{devethops_llm_cicd,
-  title={DevEthOps-LLM-CICD: Ethical CI/CD Pipeline for Machine Learning},
-  author={Nelson Alfonso},
-  year={2025},
-  url={https://github.com/Dashing-Nelson/DevEthOps-LLM-CICD}
+@software{alfonso_2025_17165999,
+  author       = {Alfonso, Nelson},
+  title        = {DevEthOps-LLM-CICD},
+  month        = sep,
+  year         = 2025,
+  publisher    = {Zenodo},
+  version      = {v0.0.1},
+  doi          = {10.5281/zenodo.17165999},
+  url          = {https://doi.org/10.5281/zenodo.17165999},
+  swhid        = {swh:1:dir:6f89ce10f50da5fbebde1351702df44a6e0f5107
+                   ;origin=https://doi.org/10.5281/zenodo.17165998;vi
+                   sit=swh:1:snp:5bfe3fa05bf5675392ad4d4fcd8a8c583d30
+                   b2f4;anchor=swh:1:rel:b1d0749455050bb6abfc58c65a33
+                   02674fc79bdd;path=DevEthOps-LLM-CICD-main
+                  },
 }
 ```
 
